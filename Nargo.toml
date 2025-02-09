@@ -1,0 +1,7 @@
+[package]
+name = "zktls_noir"
+type = "bin"
+version = "0.1.0"
+authors = ["tx-tomcat"]
+
+[dependencies]
