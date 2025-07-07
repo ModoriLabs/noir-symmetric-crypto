@@ -53,12 +53,13 @@ impl<let n: u32> Num2Bits<n> {
         let mut output: [Field; n] = [0; n];
         let mut lc1: Field = 0;
         let mut e2: Field = 1;
-        let mut remaining: Field = self.input;
+        let mut remaining: u32 = self.input as u32;
 
         // Convert input to bits
         for i in 0..n {
             // Get the least significant bit
-            let bit = remaining - (remaining / 2) * 2;
+            let bit_u32 = remaining & 1;
+            let bit = Field::from(bit_u32);
             output[i] = bit;
 
             // Constrain bit to be 0 or 1
