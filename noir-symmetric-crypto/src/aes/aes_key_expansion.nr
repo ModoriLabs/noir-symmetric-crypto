@@ -12,7 +12,7 @@ impl<let KEY_SIZE_BYTES: u32> AES_KEY_EXPAND<KEY_SIZE_BYTES> {
         Self { key: [0; KEY_SIZE_BYTES * 8] }
     }
 
-    pub fn expand(&mut self) -> [Field; 480] {
+    pub fn expand(&mut self) -> [Field; 1920] {
         let BITS_PER_WORD: u32 = 8;
         // Round constants
         let rcon: [[Field; 8]; 10] = [
@@ -42,7 +42,7 @@ impl<let KEY_SIZE_BYTES: u32> AES_KEY_EXPAND<KEY_SIZE_BYTES> {
         // e.g. 128 -> 16 key bytes -> 4 words
         let nk = KEY_SIZE_BYTES / 4;
         let ks_words = nb * (nr + 1);
-        let mut output: [Field; 480] = [0; 480];
+        let mut output: [Field; 1920] = [0; 1920]; // max for AES-256: 60 words * 32 bits = 1920 bits
         // Initialize working arrays
         let mut w: [[[Field; 8]; 4]; 60] = [[[0; 8]; 4]; 60]; // 60 is max size for AES-256
 
