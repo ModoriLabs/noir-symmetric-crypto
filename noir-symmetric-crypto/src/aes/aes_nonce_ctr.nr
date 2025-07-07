@@ -7,6 +7,7 @@ use crate::aes::aes_ctr::AES_CTR;
 /// KEY_SIZE_BYTES: Size of the key in bytes (16, 24, or 32 for AES-128, AES-192, AES-256)
 pub struct AES_NONCE_CTR<let N: u32, let KEY_SIZE_BYTES: u32> {
     // Private inputs
+    // You should hide this in fn main
     pub key: [Field; KEY_SIZE_BYTES * 8], // Key input
     pub nonce: [Field; 12 * 8], // 12-byte nonce
     pub counter: [Field; 4 * 8], // 4-byte counter

@@ -7,6 +7,7 @@ use super::aes_emulation_tables::emulated_aesenc_enc_table;
 /// AES Encryption implementation
 pub struct AESEncrypt<let N: u32> {
     pub input: [Field; 128], // Input block as bits
+    // @audit Is this right? slice syntax?
     pub key_schedule: [Field], // Expanded key schedule
     pub output: [Field; 128], // Output block as bits
     rounds: Field, // Number of rounds based on key size
@@ -121,6 +122,7 @@ impl<let N: u32> AESEncrypt<N> {
                 num2bits.input = sub_bytes.output[i * 4 + j];
                 let num2bits_output = num2bits.compute();
                 for k in 0..8 {
+                    // @q Why in revese?
                     state[i][j * 8 + k] = num2bits_output[7 - k];
                 }
             }
