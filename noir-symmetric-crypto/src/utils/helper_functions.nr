@@ -51,24 +51,29 @@ impl<let n: u32> Num2Bits<n> {
 
     pub fn compute(&mut self) -> [Field; n] {
         let mut output: [Field; n] = [0; n];
-        let mut lc1 = 0;
-        let mut e2 = 1;
+        let mut lc1: Field = 0;
+        let mut e2: Field = 1;
+        let mut remaining: Field = self.input;
 
-        // Convert input to bits and build linear combination
+        // Convert input to bits
         for i in 0..n {
-            // Compute bit: (input >> i) & 1
-            output[i] = Field::from(((self.input as u8) / e2) % 2);
+            // Get the least significant bit
+            let bit = remaining - (remaining / 2) * 2;
+            output[i] = bit;
 
             // Constrain bit to be 0 or 1
             assert(output[i] * (output[i] - 1) == 0);
 
-            // Build linear combination
-            lc1 += output[i] as u8 * e2;
-            e2 *= 2;
+            // Build linear combination for verification
+            lc1 += output[i] * e2;
+
+            // Shift right by dividing by 2
+            remaining = remaining / 2;
+            e2 = e2 + e2;
         }
 
         // Constrain linear combination equals input
-        assert(lc1 == self.input as u8);
+        assert(lc1 == self.input);
         output
     }
 }

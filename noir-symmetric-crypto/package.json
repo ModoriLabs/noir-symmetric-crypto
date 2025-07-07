@@ -1,0 +1,34 @@
+{
+  "name": "noir-symmetric-crypto",
+  "version": "1.0.0",
+  "description": "Noir implementation of symmetric cryptography algorithms",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "compile": "nargo compile",
+    "test": "nargo test",
+    "prove": "nargo prove",
+    "verify": "nargo verify",
+    "build": "npm run compile",
+    "generate-proof": "node scripts/generate-proof.js",
+    "clean": "rm -rf target proofs"
+  },
+  "keywords": [
+    "noir",
+    "zero-knowledge",
+    "cryptography",
+    "aes",
+    "symmetric-crypto",
+    "circuit"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@noir-lang/backend_barretenberg": "^0.35.0",
+    "@noir-lang/noir_js": "^0.35.0",
+    "@noir-lang/types": "^0.35.0"
+  },
+  "dependencies": {
+    "@aztec/bb.js": "^0.35.0"
+  }
+}

@@ -39,6 +39,7 @@ impl<let KEY_SIZE_BYTES: u32> AES_KEY_EXPAND<KEY_SIZE_BYTES> {
             10
         }; // AES-128
         let nb = 4;
+        // e.g. 128 -> 16 key bytes -> 4 words
         let nk = KEY_SIZE_BYTES / 4;
         let ks_words = nb * (nr + 1);
         let mut output: [Field; 480] = [0; 480];
@@ -70,6 +71,8 @@ impl<let KEY_SIZE_BYTES: u32> AES_KEY_EXPAND<KEY_SIZE_BYTES> {
                 temp[3] = tmp_word;
             }
             if KEY_SIZE_BYTES == 32 {}
+            // (i % nk == 0) => ?
+            // ((KEY_SIZE_BYTES == 32) & (i % nk == 4)) => (AES-256 only)
             if (i % nk == 0) | ((KEY_SIZE_BYTES == 32) & (i % nk == 4)) {
                 for j in 0..4 {
                     // S-box substitution
@@ -94,6 +97,7 @@ impl<let KEY_SIZE_BYTES: u32> AES_KEY_EXPAND<KEY_SIZE_BYTES> {
                 for k in 0..BITS_PER_WORD {
                     let mut xor = XOR::new();
                     xor.a = temp[0][k];
+                    // @q why i / nk - 1?
                     xor.b = rcon[i / nk - 1][k];
                     temp[0][k] = xor.compute();
                 }
