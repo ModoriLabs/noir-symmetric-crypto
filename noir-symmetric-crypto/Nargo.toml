@@ -1,7 +1,7 @@
 [package]
-name = "zktls_noir"
-type = "bin"
+name = "noir_symmetric_crypto"
+type = "lib"
 version = "0.1.0"
-authors = ["tx-tomcat"]
+authors = ["qpzm", "KyoungWan", "tx-tomcat"]
 
 [dependencies]
