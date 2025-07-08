@@ -25,14 +25,9 @@ impl ChaChaState {
     pub fn new(key: [u32; 8], nonce: [u32; 3], counter: u32) -> Self {
         Self {
             state: [
-                0x61707865, 0x3320646e, 0x79622d32, 0x6b206574, 
-                key[0], key[1],
-                key[2], key[3],
-                key[4], key[5],
-                key[6], key[7],
-                counter, nonce[0],
-                nonce[1], nonce[2]
-            ]
+                0x61707865, 0x3320646e, 0x79622d32, 0x6b206574, key[0], key[1], key[2], key[3],
+                key[4], key[5], key[6], key[7], counter, nonce[0], nonce[1], nonce[2],
+            ],
         }
     }
 
@@ -118,21 +113,21 @@ pub fn quarter_round(a: &mut u32, b: &mut u32, c: &mut u32, d: &mut u32) {
     *a = temp_a;
     *d ^= *a;
     left_rotation(d, 16);
-    
+
     let c_val = *c;
     let d_val = *d;
     let temp_c = (c_val as u64 + d_val as u64) as u32;
     *c = temp_c;
     *b ^= *c;
     left_rotation(b, 12);
-    
+
     let a_val2 = *a;
     let b_val2 = *b;
     let temp_a2 = (a_val2 as u64 + b_val2 as u64) as u32;
     *a = temp_a2;
     *d ^= *a;
     left_rotation(d, 8);
-    
+
     let c_val2 = *c;
     let d_val2 = *d;
     let temp_c2 = (c_val2 as u64 + d_val2 as u64) as u32;

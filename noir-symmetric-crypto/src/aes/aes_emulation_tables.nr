@@ -187,4 +187,3 @@ pub fn emulated_aesenc_rijndael_sbox(input: Field) -> Field {
 
     lut[input as u32]
 }
-
