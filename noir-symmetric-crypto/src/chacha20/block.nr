@@ -16,7 +16,6 @@ pub fn chacha20_block(key: [u32; 8], nonce: [u32; 3], counter: u32) -> [u32; 16]
     state.to_le_4bytes()
 }
 
-/// Structure that holds the chacha20 state
 pub struct ChaChaState {
     pub state: [u32; 16],
 }
@@ -26,7 +25,7 @@ impl ChaChaState {
     pub fn new(key: [u32; 8], nonce: [u32; 3], counter: u32) -> Self {
         Self {
             state: [
-                0x61707865, 0x3320646e, 0x79622d32, 0x6b206574, // Constants
+                0x61707865, 0x3320646e, 0x79622d32, 0x6b206574, 
                 key[0], key[1],
                 key[2], key[3],
                 key[4], key[5],

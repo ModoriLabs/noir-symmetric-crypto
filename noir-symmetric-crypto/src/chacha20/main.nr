@@ -22,12 +22,12 @@ pub fn ChaCha20_32(key: [u32; 8], nonce: [u32; 3], counter: u32, plaintext: [u32
 // Main function defines circuit inputs/outputs - equivalent to circom's component main{public [in, nonce, counter]} = ChaCha20(32, 32);
 fn main(
     // Private inputs
-    key: [u32; 8],             // Private key
+    key: [u32; 8],           
     
     // Public inputs - equivalent to circom's public [in, nonce, counter]
-    plaintext: pub [u32; 32],  // Equivalent to circom's 'in'
-    nonce: pub [u32; 3],       // Equivalent to circom's 'nonce'
-    counter: pub u32,          // Equivalent to circom's 'counter'
+    plaintext: pub [u32; 32],  
+    nonce: pub [u32; 3],     
+    counter: pub u32,          
     
     // Public outputs
     ciphertext: pub [u32; 32]  // Encryption result
