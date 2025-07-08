@@ -1,5 +1,3 @@
-// ChaCha20 cipher implementation module
-
 pub mod block;
 pub mod lib;
 pub mod main;

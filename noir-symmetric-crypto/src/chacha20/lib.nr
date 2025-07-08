@@ -1,4 +1,3 @@
-// Import block module
 use super::block;
 
 /// ChaCha20 encryption function for 32 u32 words (128 bytes)
