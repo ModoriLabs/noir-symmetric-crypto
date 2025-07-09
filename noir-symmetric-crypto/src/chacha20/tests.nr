@@ -24,7 +24,7 @@ fn test_chacha20_encryption() {
     let counter = 1;
     let plaintext = [0; 32]; // All zeros
 
-    let ciphertext = crate::chacha20::main::ChaCha20_32(key, nonce, counter, plaintext);
+    let ciphertext = crate::chacha20::ChaCha20::<32>(key, nonce, counter, plaintext);
 
     // Verify that encryption produces different output than input
     assert(ciphertext != plaintext);
