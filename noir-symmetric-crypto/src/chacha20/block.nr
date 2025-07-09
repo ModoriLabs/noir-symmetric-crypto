@@ -40,104 +40,63 @@ impl ChaChaState {
 
     /// Serializes the state as 4-byte little endian words
     pub fn to_le_4bytes(self) -> [u32; 16] {
-        let mut res = [0; 16];
-        for i in 0..16 {
-            res[i] = ((self.state[i] & 0xFF) << 24)
-                + ((self.state[i] & 0xFF00) << 8)
-                + ((self.state[i] & 0xFF0000) >> 8)
-                + ((self.state[i] & 0xFF000000) >> 24);
-        }
-        res
+        self.state
     }
 
-    /// Runs quarter round on the working state 8 times:
-    /// 0 4 8 12
-    /// 1 5 9 13
-    /// 2 6 10 14
-    /// 3 7 11 15
-    /// 0 5 10 15
-    /// 1 6 11 12
-    /// 2 7 8 13
-    /// 3 4 9 14
+    /// 4 quarter-rounds for Column, 4 quarter-rounds for Diagonal
     pub fn inner_block(&mut self) {
-        let mut state_0 = self.state[0];
-        let mut state_1 = self.state[1];
-        let mut state_2 = self.state[2];
-        let mut state_3 = self.state[3];
-        let mut state_4 = self.state[4];
-        let mut state_5 = self.state[5];
-        let mut state_6 = self.state[6];
-        let mut state_7 = self.state[7];
-        let mut state_8 = self.state[8];
-        let mut state_9 = self.state[9];
-        let mut state_10 = self.state[10];
-        let mut state_11 = self.state[11];
-        let mut state_12 = self.state[12];
-        let mut state_13 = self.state[13];
-        let mut state_14 = self.state[14];
-        let mut state_15 = self.state[15];
+        // Column rounds
+        let (a0, a4, a8, a12) =
+            quarter_round(self.state[0], self.state[4], self.state[8], self.state[12]);
+        let (a1, a5, a9, a13) =
+            quarter_round(self.state[1], self.state[5], self.state[9], self.state[13]);
+        let (a2, a6, a10, a14) =
+            quarter_round(self.state[2], self.state[6], self.state[10], self.state[14]);
+        let (a3, a7, a11, a15) =
+            quarter_round(self.state[3], self.state[7], self.state[11], self.state[15]);
 
-        quarter_round(&mut state_0, &mut state_4, &mut state_8, &mut state_12);
-        quarter_round(&mut state_1, &mut state_5, &mut state_9, &mut state_13);
-        quarter_round(&mut state_2, &mut state_6, &mut state_10, &mut state_14);
-        quarter_round(&mut state_3, &mut state_7, &mut state_11, &mut state_15);
-        quarter_round(&mut state_0, &mut state_5, &mut state_10, &mut state_15);
-        quarter_round(&mut state_1, &mut state_6, &mut state_11, &mut state_12);
-        quarter_round(&mut state_2, &mut state_7, &mut state_8, &mut state_13);
-        quarter_round(&mut state_3, &mut state_4, &mut state_9, &mut state_14);
+        // Diagonal rounds
+        let (b0, b5, b10, b15) = quarter_round(a0, a5, a10, a15);
+        let (b1, b6, b11, b12) = quarter_round(a1, a6, a11, a12);
+        let (b2, b7, b8, b13) = quarter_round(a2, a7, a8, a13);
+        let (b3, b4, b9, b14) = quarter_round(a3, a4, a9, a14);
 
-        self.state[0] = state_0;
-        self.state[1] = state_1;
-        self.state[2] = state_2;
-        self.state[3] = state_3;
-        self.state[4] = state_4;
-        self.state[5] = state_5;
-        self.state[6] = state_6;
-        self.state[7] = state_7;
-        self.state[8] = state_8;
-        self.state[9] = state_9;
-        self.state[10] = state_10;
-        self.state[11] = state_11;
-        self.state[12] = state_12;
-        self.state[13] = state_13;
-        self.state[14] = state_14;
-        self.state[15] = state_15;
+        self.state = [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15];
     }
 }
 
-/// Performs a quarter round of chacha20 on 4 32-byte values.
-pub fn quarter_round(a: &mut u32, b: &mut u32, c: &mut u32, d: &mut u32) {
-    let a_val = *a;
-    let b_val = *b;
-    let temp_a = (a_val as u64 + b_val as u64) as u32;
-    *a = temp_a;
-    *d ^= *a;
-    left_rotation(d, 16);
+// ChaCha20 Quarter Round operation
+// Takes four 32-bit unsigned integers and performs the quarter round operation
+pub fn quarter_round(a: u32, b: u32, c: u32, d: u32) -> (u32, u32, u32, u32) {
+    // 1. a += b; d ^= a; d <<<= 16;
+    let a1 = add32(a, b);
+    let d1 = d ^ a1;
+    let d2 = rotate_left32(d1, 16);
 
-    let c_val = *c;
-    let d_val = *d;
-    let temp_c = (c_val as u64 + d_val as u64) as u32;
-    *c = temp_c;
-    *b ^= *c;
-    left_rotation(b, 12);
+    // 2. c += d; b ^= c; b <<<= 12;
+    let c1 = add32(c, d2);
+    let b1 = b ^ c1;
+    let b2 = rotate_left32(b1, 12);
 
-    let a_val2 = *a;
-    let b_val2 = *b;
-    let temp_a2 = (a_val2 as u64 + b_val2 as u64) as u32;
-    *a = temp_a2;
-    *d ^= *a;
-    left_rotation(d, 8);
+    // 3. a += b; d ^= a; d <<<= 8;
+    let a2 = add32(a1, b2);
+    let d3 = d2 ^ a2;
+    let d4 = rotate_left32(d3, 8);
 
-    let c_val2 = *c;
-    let d_val2 = *d;
-    let temp_c2 = (c_val2 as u64 + d_val2 as u64) as u32;
-    *c = temp_c2;
-    *b ^= *c;
-    left_rotation(b, 7);
+    // 4. c += d; b ^= c; b <<<= 7;
+    let c2 = add32(c1, d4);
+    let b3 = b2 ^ c2;
+    let b4 = rotate_left32(b3, 7);
+
+    (a2, b4, c2, d4)
 }
 
-/// Performs a left rotation on a 32-bit value
-fn left_rotation(value: &mut u32, shift: u32) {
-    let shift_u8 = shift as u8;
-    *value = (*value << shift_u8) | (*value >> (32 - shift_u8));
+// Helper function to simulate 32-bit addition with overflow
+fn add32(a: u32, b: u32) -> u32 {
+    std::wrapping_add(a, b)
+}
+
+// Helper function to simulate 32-bit rotation
+pub fn rotate_left32(x: u32, n: u8) -> u32 {
+    ((x << n) | (x >> (32 - n)))
 }
