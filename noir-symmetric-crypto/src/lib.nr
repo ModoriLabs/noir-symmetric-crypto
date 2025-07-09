@@ -6,5 +6,5 @@ pub mod chacha20;
 pub mod utils;
 
 // Re-export main functionality for easy access
-pub use chacha20::{ChaCha20, ChaCha20_32, chacha20_block, ChaChaState, quarter_round};
+pub use chacha20::{ChaCha20, chacha20_block, ChaChaState, quarter_round};
 pub use utils::helper_functions::{XOR, Bits2Num, Num2Bits};
