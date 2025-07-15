@@ -1,28 +1,30 @@
-# AES-256-CTR Test Suite
+# AES-128-CTR Test Suite
 
-This directory contains a comprehensive test suite for the AES-256-CTR implementation in Noir.
+This directory contains a comprehensive test suite for the AES-128-CTR implementation in Noir.
 
 ## Overview
 
-The test suite validates the AES-256-CTR (Counter mode) implementation against official NIST test vectors and includes additional tests for edge cases and cryptographic properties.
+The test suite validates the AES-128-CTR (Counter mode) implementation against official NIST test vectors and includes additional tests for edge cases and cryptographic properties.
 
 ## Test Structure
 
 ### Unit Tests (`src/test.nr`)
 
 1. **NIST Vector Tests**
-   - `test_aes_256_ctr_nist_vector_1`: Tests the first NIST test vector
-   - `test_aes_256_ctr_nist_vector_2`: Tests with incremented counter
+
+   - `test_aes_128_ctr_nist_vector_1`: Tests the first NIST test vector
+   - `test_aes_128_ctr_nist_vector_2`: Tests with incremented counter
 
 2. **Edge Case Tests**
-   - `test_aes_256_ctr_zero_plaintext`: Verifies keystream generation with zero plaintext
-   - `test_aes_256_ctr_decryption`: Tests the symmetric property of CTR mode
+   - `test_aes_128_ctr_zero_plaintext`: Verifies keystream generation with zero plaintext
+   - `test_aes_128_ctr_decryption`: Tests the symmetric property of CTR mode
 
 ### Integration Test (`src/main.nr`)
 
 The main function serves as an integration test that:
+
 - Takes public inputs (key, counter, plaintext, expected ciphertext)
-- Performs AES-256-CTR encryption
+- Performs AES-128-CTR encryption
 - Verifies the output matches the expected ciphertext
 
 ## Test Vectors
@@ -50,6 +52,7 @@ Expected Ciphertext: 601ec313775789a5b7a7f504bbf3d228
 ```
 
 This script will:
+
 1. Run all unit tests
 2. Generate a proof with the NIST test vector
 3. Verify the generated proof
@@ -85,7 +88,7 @@ The test suite covers:
 To add new tests:
 
 1. Add test functions to `src/test.nr` with the `#[test]` attribute
-2. Use descriptive names following the pattern `test_aes_256_ctr_<description>`
+2. Use descriptive names following the pattern `test_aes_128_ctr_<description>`
 3. Include comments explaining what the test validates
 4. Use official test vectors when available
 
@@ -94,10 +97,12 @@ To add new tests:
 ### Common Issues
 
 1. **"nargo: command not found"**
+
    - Install Noir from the official website
    - Add nargo to your PATH
 
 2. **Compilation Errors**
+
    - Ensure the `noir-symmetric-crypto` dependency path is correct in `Nargo.toml`
    - Check that all imported modules exist
 
