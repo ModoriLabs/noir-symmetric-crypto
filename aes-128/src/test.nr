@@ -182,3 +182,70 @@ fn test_aes_128_ctr_decryption() {
         }
     }
 }
+
+// https://github.com/ModoriLabs/zk-symmetric-crypto/blob/extend-noir/circom/tests/aes-circuits.test.ts#L98
+#[test]
+fn test_aes_128_ctr_with_nonce_and_counter() {
+    // Test based on circom test vector with separate nonce and counter
+    // This simulates the GCM mode counter construction
+
+    let mut aes_ctr = AES_CTR::<128, 16>::new();
+
+    // Key from circom test
+    let key_bytes: [u8; 16] = [
+        0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e,
+        0x0f,
+    ];
+
+    // Convert key to bits
+    for i in 0..16 {
+        for j in 0..8 {
+            aes_ctr.key[i * 8 + j] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
+        }
+    }
+
+    // Construct IV from nonce (12 bytes) + counter (4 bytes)
+    // Nonce: 01 02 00 00 00 00 00 4a 00 00 00 09
+    // Counter: 00000002 (big-endian)
+    let iv_bytes: [u8; 16] = [
+        0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x4a, 0x00, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00,
+        0x02,
+    ];
+
+    // Convert IV to bits
+    for i in 0..16 {
+        for j in 0..8 {
+            aes_ctr.counter[i * 8 + j] = ((iv_bytes[i] >> (7 - j)) & 1) as Field;
+        }
+    }
+
+    // Plaintext from circom test: "Ladies aemen of " (16 bytes)
+    let plaintext_bytes: [u8; 16] = [
+        0x4c, 0x61, 0x64, 0x69, 0x65, 0x73, 0x20, 0x61, 0x65, 0x6d, 0x65, 0x6e, 0x20, 0x6f, 0x66,
+        0x20,
+    ];
+
+    // Convert plaintext to bits
+    for i in 0..16 {
+        for j in 0..8 {
+            aes_ctr.input[i * 8 + j] = ((plaintext_bytes[i] >> (7 - j)) & 1) as Field;
+        }
+    }
+
+    // Perform encryption
+    aes_ctr.encrypt();
+
+    // Expected ciphertext (computed using standard AES-128-CTR)
+    let expected_ciphertext_bytes: [u8; 16] = [
+        0x3d, 0xe8, 0x74, 0x91, 0x1c, 0x0b, 0xde, 0x5c, 0xc5, 0x6d, 0xe9, 0x95, 0xe6, 0x8b, 0x13,
+        0xb7,
+    ];
+
+    // Verify output
+    for i in 0..16 {
+        for j in 0..8 {
+            let expected_bit = ((expected_ciphertext_bytes[i] >> (7 - j)) & 1) as Field;
+            assert(aes_ctr.output[i * 8 + j] == expected_bit);
+        }
+    }
+}
