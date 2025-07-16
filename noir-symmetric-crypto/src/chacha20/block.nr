@@ -13,7 +13,7 @@ pub fn chacha20_block(key: [u32; 8], nonce: [u32; 3], counter: u32) -> [u32; 16]
     }
 
     state.add(working_state);
-    state.to_le_4bytes()
+    state.to_bytes()
 }
 
 pub struct ChaChaState {
@@ -40,7 +40,7 @@ impl ChaChaState {
     }
 
     /// Serializes the state as 4-byte little endian words
-    pub fn to_le_4bytes(self) -> [u32; 16] {
+    pub fn to_bytes(self) -> [u32; 16] {
         self.state
     }
 
