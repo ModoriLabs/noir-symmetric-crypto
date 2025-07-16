@@ -25,8 +25,9 @@ impl ChaChaState {
     pub fn new(key: [u32; 8], nonce: [u32; 3], counter: u32) -> Self {
         Self {
             state: [
-                0x61707865, 0x3320646e, 0x79622d32, 0x6b206574, key[0], key[1], key[2], key[3],
-                key[4], key[5], key[6], key[7], counter, nonce[0], nonce[1], nonce[2],
+                0x61707865, 0x3320646e, 0x79622d32, 0x6b206574,
+                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
+                counter, nonce[0], nonce[1], nonce[2],
             ],
         }
     }
@@ -34,7 +35,7 @@ impl ChaChaState {
     /// Add two ChaChaState's together elementwise
     pub fn add(&mut self, other: Self) {
         for i in 0..16 {
-            self.state[i] = (self.state[i] as u64 + other.state[i] as u64) as u32;
+            self.state[i] = add32(self.state[i], other.state[i]);
         }
     }
 
