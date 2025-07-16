@@ -64,29 +64,40 @@ fn test_chacha20_main_64_bytes() {
     assert(output == expected_ciphertext);
 }
 
-/*
+// Plaintext: "Ladies and Gentlemen of the class of '99: If I could offer you only one tip for the future, sunscreen would be it."
+// Total: 114 bytes, which needs 29 u32 words (rounded up to 32 for ChaCha20)
 #[test]
-fn test_chacha20_test_vector() {
+fn test_chacha20_main_114_bytes() {
     // Test vector from RFC 7539 Section 2.4.2
     let key = [
         0x03020100, 0x07060504, 0x0b0a0908, 0x0f0e0d0c,
         0x13121110, 0x17161514, 0x1b1a1918, 0x1f1e1d1c
     ];
-    let nonce = [0x09000000, 0x4a000000, 0x00000000];
+    let nonce = [0x00000000, 0x4a000000, 0x00000000];
     let counter = 1;
 
-    // All zeros plaintext
-    let plaintext: [u32; 32] = [0; 32];
-
-    // Expected first block of keystream (from RFC 7539)
-    // When XORed with zeros, this is the ciphertext
-    let expected_first_block = [
-        0xe4e7f110, 0x15593bd1, 0x1fdd0f50, 0xc47120a3,
-        0xc7f4d1c7, 0x0368c033, 0x9aaa2204, 0x4e6cd4c3,
-        0x466482d2, 0x09aa9f07, 0x05d7c214, 0xa2028bd9,
-        0xd19c12b5, 0xb94e16de, 0xe883d0cb, 0x4e3c50a2
+    // "Ladies and Gentlemen of the class of '99: If I could offer you only one tip for the future, sunscreen would be it."
+    let plaintext: [u32; 32] = [
+        0x6964614c, 0x61207365, 0x4720646e, 0x6c746e65,
+        0x6e656d65, 0x20666f20, 0x20656874, 0x73616c63,
+        0x666f2073, 0x39392720, 0x6649203a, 0x63204920,
+        0x646c756f, 0x66666f20, 0x79207265, 0x6f20756f,
+        0x20796c6e, 0x20656e6f, 0x20706974, 0x20726f66,
+        0x20656874, 0x75747566, 0x202c6572, 0x736e7573,
+        0x65657263, 0x6f77206e, 0x20646c75, 0x69206562,
+        0x00002e74, 0x00000000, 0x00000000, 0x00000000,
     ];
 
-    main(key, expected_first_block, plaintext, nonce, counter);
+    let ciphertext: [u32; 32] = [
+        0x9a352e6e, 0x80f96825, 0x2807ba41, 0x81690ddd,
+        0xec7a7ee9, 0xc260431d, 0xccaf270a, 0x0bae9ffd,
+        0xc5651bf9, 0xab334752, 0xab3d598f, 0x57b362cd,
+        0x24d63916, 0xab5251e6, 0x350c538f, 0xd861089f,
+        0xbf0dca07, 0x616a0d50, 0x088ea356, 0x5eb6228a,
+        0x4d51bc52, 0x06f8cc16, 0x1ae98c81, 0x363779b7,
+        0xbf0bf95a, 0xe65ba374, 0xed8e0bb4, 0x425e78f2,
+        0x3744d87, 0xa11a2073, 0xe8bcfb88, 0xedc49139,
+    ];
+
+    main(key, ciphertext, plaintext, nonce, counter);
 }
-*/
