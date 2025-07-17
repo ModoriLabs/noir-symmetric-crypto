@@ -47,7 +47,7 @@ impl<let n_bits: u32, let KEY_SIZE_BYTES: u32> AES_CTR<n_bits, KEY_SIZE_BYTES> {
         // Process each block
         for i in 0..(msg_len / 16) {
             // Encrypt counter
-            let mut aes_encrypt = AESEncrypt::new(aes_rounds);
+            let mut aes_encrypt = AESEncrypt::<128>::new(aes_rounds);
             aes_encrypt.input = ctr_t;
             aes_encrypt.key_schedule = expanded_key;
             aes_encrypt.encrypt();
