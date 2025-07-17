@@ -160,7 +160,7 @@ pub fn emulated_aesenc_enc_table(table_num: Field, index: Field) -> Field {
         ],
     ];
 
-    lut[table_num][index]
+    lut[table_num as u32][index as u32]
 }
 
 pub fn emulated_aesenc_rijndael_sbox(input: Field) -> Field {
@@ -185,6 +185,5 @@ pub fn emulated_aesenc_rijndael_sbox(input: Field) -> Field {
         0x16,
     ];
 
-    lut[input]
+    lut[input as u32]
 }
-
