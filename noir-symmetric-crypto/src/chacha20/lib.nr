@@ -1,6 +1,5 @@
 use super::block;
 
-/// ChaCha20 encryption function with generic size N
 pub fn ChaCha20<let N: u32>(
     key: [u32; 8],
     nonce: [u32; 3],
@@ -27,7 +26,6 @@ pub fn ChaCha20<let N: u32>(
     res
 }
 
-// Re-export core functions
 pub use super::block::chacha20_block;
 pub use super::block::ChaChaState;
 pub use super::block::quarter_round;
