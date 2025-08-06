@@ -17,28 +17,32 @@ fn main(
     // Convert key bytes to bits
     for i in 0..32 {
         for j in 0..8 {
-            key_bits[i * 8 + j] = ((key[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            key_bits[index] = ((key[i] >> (7 - j)) & 1) as Field;
         }
     }
 
     // Convert counter bytes to bits
     for i in 0..16 {
         for j in 0..8 {
-            counter_bits[i * 8 + j] = ((counter[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            counter_bits[index] = ((counter[i] >> (7 - j)) & 1) as Field;
         }
     }
 
     // Convert plaintext bytes to bits
     for i in 0..16 {
         for j in 0..8 {
-            plaintext_bits[i * 8 + j] = ((plaintext[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            plaintext_bits[index] = ((plaintext[i] >> (7 - j)) & 1) as Field;
         }
     }
 
     // Convert expected ciphertext bytes to bits
     for i in 0..16 {
         for j in 0..8 {
-            expected_bits[i * 8 + j] = ((expected_ciphertext[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            expected_bits[index] = ((expected_ciphertext[i] >> (7 - j)) & 1) as Field;
         }
     }
 

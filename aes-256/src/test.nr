@@ -21,7 +21,8 @@ fn test_aes_256_ctr_nist_vector_1() {
     // Convert key to bits (MSB first)
     for i in 0..32 {
         for j in 0..8 {
-            aes_ctr.key[i * 8 + j] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.key[index] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -34,7 +35,8 @@ fn test_aes_256_ctr_nist_vector_1() {
     // Convert counter to bits (MSB first)
     for i in 0..16 {
         for j in 0..8 {
-            aes_ctr.counter[i * 8 + j] = ((counter_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.counter[index] = ((counter_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -47,7 +49,8 @@ fn test_aes_256_ctr_nist_vector_1() {
     // Convert plaintext to bits (MSB first)
     for i in 0..16 {
         for j in 0..8 {
-            aes_ctr.input[i * 8 + j] = ((plaintext_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.input[index] = ((plaintext_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -64,7 +67,8 @@ fn test_aes_256_ctr_nist_vector_1() {
     for i in 0..16 {
         for j in 0..8 {
             let expected_bit = ((expected_ciphertext_bytes[i] >> (7 - j)) & 1) as Field;
-            assert(aes_ctr.output[i * 8 + j] == expected_bit);
+            let index = (i as u32) * 8 + (j as u32);
+            assert(aes_ctr.output[index] == expected_bit);
         }
     }
 }
@@ -89,7 +93,8 @@ fn test_aes_256_ctr_nist_vector_2() {
 
     for i in 0..32 {
         for j in 0..8 {
-            aes_ctr.key[i * 8 + j] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.key[index] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -101,7 +106,8 @@ fn test_aes_256_ctr_nist_vector_2() {
 
     for i in 0..16 {
         for j in 0..8 {
-            aes_ctr.counter[i * 8 + j] = ((counter_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.counter[index] = ((counter_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -113,7 +119,8 @@ fn test_aes_256_ctr_nist_vector_2() {
 
     for i in 0..16 {
         for j in 0..8 {
-            aes_ctr.input[i * 8 + j] = ((plaintext_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.input[index] = ((plaintext_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -130,7 +137,8 @@ fn test_aes_256_ctr_nist_vector_2() {
     for i in 0..16 {
         for j in 0..8 {
             let expected_bit = ((expected_ciphertext_bytes[i] >> (7 - j)) & 1) as Field;
-            assert(aes_ctr.output[i * 8 + j] == expected_bit);
+            let index = (i as u32) * 8 + (j as u32);
+            assert(aes_ctr.output[index] == expected_bit);
         }
     }
 }
@@ -150,7 +158,8 @@ fn test_aes_256_ctr_zero_plaintext() {
 
     for i in 0..32 {
         for j in 0..8 {
-            aes_ctr.key[i * 8 + j] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.key[index] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -162,7 +171,8 @@ fn test_aes_256_ctr_zero_plaintext() {
 
     for i in 0..16 {
         for j in 0..8 {
-            aes_ctr.counter[i * 8 + j] = ((counter_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.counter[index] = ((counter_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -205,8 +215,9 @@ fn test_aes_256_ctr_decryption() {
 
     for i in 0..32 {
         for j in 0..8 {
-            aes_ctr1.key[i * 8 + j] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
-            aes_ctr2.key[i * 8 + j] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr1.key[index] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
+            aes_ctr2.key[index] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -218,8 +229,9 @@ fn test_aes_256_ctr_decryption() {
 
     for i in 0..16 {
         for j in 0..8 {
-            aes_ctr1.counter[i * 8 + j] = ((counter_bytes[i] >> (7 - j)) & 1) as Field;
-            aes_ctr2.counter[i * 8 + j] = ((counter_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr1.counter[index] = ((counter_bytes[i] >> (7 - j)) & 1) as Field;
+            aes_ctr2.counter[index] = ((counter_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -231,7 +243,8 @@ fn test_aes_256_ctr_decryption() {
 
     for i in 0..16 {
         for j in 0..8 {
-            aes_ctr1.input[i * 8 + j] = ((plaintext_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr1.input[index] = ((plaintext_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -250,7 +263,8 @@ fn test_aes_256_ctr_decryption() {
     for i in 0..16 {
         for j in 0..8 {
             let original_bit = ((plaintext_bytes[i] >> (7 - j)) & 1) as Field;
-            assert(aes_ctr2.output[i * 8 + j] == original_bit);
+            let index = (i as u32) * 8 + (j as u32);
+            assert(aes_ctr2.output[index] == original_bit);
         }
     }
 }
@@ -273,7 +287,8 @@ fn test_aes_256_ctr_with_nonce_and_counter() {
     // Convert key to bits
     for i in 0..32 {
         for j in 0..8 {
-            aes_ctr.key[i * 8 + j] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.key[index] = ((key_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -288,7 +303,8 @@ fn test_aes_256_ctr_with_nonce_and_counter() {
     // Convert IV to bits
     for i in 0..16 {
         for j in 0..8 {
-            aes_ctr.counter[i * 8 + j] = ((iv_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.counter[index] = ((iv_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -301,7 +317,8 @@ fn test_aes_256_ctr_with_nonce_and_counter() {
     // Convert plaintext to bits
     for i in 0..16 {
         for j in 0..8 {
-            aes_ctr.input[i * 8 + j] = ((plaintext_bytes[i] >> (7 - j)) & 1) as Field;
+            let index = (i as u32) * 8 + (j as u32);
+            aes_ctr.input[index] = ((plaintext_bytes[i] >> (7 - j)) & 1) as Field;
         }
     }
 
@@ -318,7 +335,8 @@ fn test_aes_256_ctr_with_nonce_and_counter() {
     for i in 0..16 {
         for j in 0..8 {
             let expected_bit = ((expected_ciphertext_bytes[i] >> (7 - j)) & 1) as Field;
-            assert(aes_ctr.output[i * 8 + j] == expected_bit);
+            let index = (i as u32) * 8 + (j as u32);
+            assert(aes_ctr.output[index] == expected_bit);
         }
     }
 }
