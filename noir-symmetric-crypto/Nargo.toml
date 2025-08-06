@@ -2,6 +2,5 @@
 name = "noir_symmetric_crypto"
 type = "lib"
 version = "0.1.0"
-authors = ["qpzm", "KyoungWan", "tx-tomcat"]
 
 [dependencies]

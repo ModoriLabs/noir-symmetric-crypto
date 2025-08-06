@@ -1,0 +1,12 @@
+[workspace]
+members = [
+    "noir-symmetric-crypto",
+    "aes-128",
+    "aes-256",
+    "chacha20"
+]
+default-member = "noir-symmetric-crypto"
+
+[workspace.package]
+authors = ["qpzm", "KyoungWan", "0xKarl98", "tx-tomcat"]
+compiler_version = ">=0.35.0"
