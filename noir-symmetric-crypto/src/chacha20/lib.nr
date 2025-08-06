@@ -26,7 +26,6 @@ pub fn ChaCha20<let N: u32>(
     res
 }
 
-// Re-export core functions
 pub use super::block::chacha20_block;
 pub use super::block::ChaChaState;
 pub use super::block::quarter_round;
