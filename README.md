@@ -27,8 +27,11 @@ cd noir-symmetric-crypto
 
 Build all packages in the workspace:
 ```bash
-nargo check
+cd aes-128; nargo build;
+cd aes-256; nargo build;
+cd chacha20; nargo build;
 ```
+Use `bytecode` in the *.json file for compiled circuit.
 
 ## Testing
 
