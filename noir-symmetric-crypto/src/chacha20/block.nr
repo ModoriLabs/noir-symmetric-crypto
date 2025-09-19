@@ -25,9 +25,8 @@ impl ChaChaState {
     pub fn new(key: [u32; 8], nonce: [u32; 3], counter: u32) -> Self {
         Self {
             state: [
-                0x61707865, 0x3320646e, 0x79622d32, 0x6b206574,
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                counter, nonce[0], nonce[1], nonce[2],
+                0x61707865, 0x3320646e, 0x79622d32, 0x6b206574, key[0], key[1], key[2], key[3],
+                key[4], key[5], key[6], key[7], counter, nonce[0], nonce[1], nonce[2],
             ],
         }
     }

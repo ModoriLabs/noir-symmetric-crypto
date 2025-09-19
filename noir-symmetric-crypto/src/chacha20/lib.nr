@@ -4,7 +4,7 @@ pub fn ChaCha20<let N: u32>(
     key: [u32; 8],
     nonce: [u32; 3],
     counter: u32,
-    plaintext: [u32; N]
+    plaintext: [u32; N],
 ) -> [u32; N] {
     let mut res = [0; N];
     let num_blocks = (N + 15) / 16; // Ceiling division
@@ -15,7 +15,11 @@ pub fn ChaCha20<let N: u32>(
 
         // Process up to 16 words in this block
         let start_idx = block_idx * 16;
-        let end_idx = if start_idx + 16 <= N { start_idx + 16 } else { N };
+        let end_idx = if start_idx + 16 <= N {
+            start_idx + 16
+        } else {
+            N
+        };
 
         for i in start_idx..end_idx {
             let key_stream_idx = i - start_idx;

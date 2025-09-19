@@ -1,4 +1,4 @@
-use crate::chacha20::block::{quarter_round, chacha20_block};
+use crate::chacha20::block::{chacha20_block, quarter_round};
 
 #[test]
 fn test_chacha_state_creation() {
@@ -43,20 +43,20 @@ fn test_quarter_round_test_vector() {
     // Testing QUARTERROUND(2,7,8,13) operation
 
     // Initial state values at positions 2, 7, 8, 13
-    let mut a = 0x516461b1;  // position 2
-    let mut b = 0x2a5f714c;  // position 7
-    let mut c = 0x53372767;  // position 8
-    let mut d = 0x3d631689;  // position 13
+    let mut a = 0x516461b1; // position 2
+    let mut b = 0x2a5f714c; // position 7
+    let mut c = 0x53372767; // position 8
+    let mut d = 0x3d631689; // position 13
 
     // Apply quarter round
     let (a, b, c, d) = quarter_round(a, b, c, d);
 
     // Print the results for debugging
     println("After quarter_round:");
-    assert(a == 0xbdb886dc);  // position 2
-    assert(b == 0xcfacafd2);  // position 7
-    assert(c == 0xe46bea80);  // position 8
-    assert(d == 0xccc07c79);  // position 13
+    assert(a == 0xbdb886dc); // position 2
+    assert(b == 0xcfacafd2); // position 7
+    assert(c == 0xe46bea80); // position 8
+    assert(d == 0xccc07c79); // position 13
 }
 
 #[test]
