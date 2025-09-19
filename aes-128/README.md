@@ -23,9 +23,9 @@ The test suite validates the AES-128-CTR (Counter mode) implementation against o
 
 The main function serves as an integration test that:
 
-- Takes public inputs (key, counter, plaintext, expected ciphertext)
+- Takes public inputs (key, counter, plaintext, ciphertext)
 - Performs AES-128-CTR encryption
-- Verifies the output matches the expected ciphertext
+- Verifies the output matches the ciphertext
 
 ## Test Vectors
 

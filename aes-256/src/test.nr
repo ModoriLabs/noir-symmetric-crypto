@@ -66,9 +66,9 @@ fn test_aes_256_ctr_nist_vector_1() {
     // Verify output
     for i in 0..16 {
         for j in 0..8 {
-            let expected_bit = ((expected_ciphertext_bytes[i] >> (7 - j)) & 1) as Field;
+            let ciphertext_bits = ((ciphertext_bytes[i] >> (7 - j)) & 1) as Field;
             let index = (i as u32) * 8 + (j as u32);
-            assert(aes_ctr.output[index] == expected_bit);
+            assert(aes_ctr.output[index] == ciphertext_bits);
         }
     }
 }
@@ -136,9 +136,9 @@ fn test_aes_256_ctr_nist_vector_2() {
     // Verify output
     for i in 0..16 {
         for j in 0..8 {
-            let expected_bit = ((expected_ciphertext_bytes[i] >> (7 - j)) & 1) as Field;
+            let ciphertext_bits = ((ciphertext_bytes[i] >> (7 - j)) & 1) as Field;
             let index = (i as u32) * 8 + (j as u32);
-            assert(aes_ctr.output[index] == expected_bit);
+            assert(aes_ctr.output[index] == ciphertext_bits);
         }
     }
 }
@@ -326,7 +326,7 @@ fn test_aes_256_ctr_with_nonce_and_counter() {
     aes_ctr.encrypt();
 
     // Expected ciphertext (computed using standard AES-256-CTR)
-    let expected_ciphertext_bytes: [u8; 16] = [
+    let ciphertext_bytes: [u8; 16] = [
         0x4e, 0xbc, 0x4c, 0xf5, 0x24, 0xae, 0x65, 0x39, 0x55, 0x4a, 0xc3, 0xdf, 0x6c, 0x05, 0x08,
         0x5d,
     ];
@@ -334,9 +334,9 @@ fn test_aes_256_ctr_with_nonce_and_counter() {
     // Verify output
     for i in 0..16 {
         for j in 0..8 {
-            let expected_bit = ((expected_ciphertext_bytes[i] >> (7 - j)) & 1) as Field;
+            let ciphertext_bits = ((ciphertext_bytes[i] >> (7 - j)) & 1) as Field;
             let index = (i as u32) * 8 + (j as u32);
-            assert(aes_ctr.output[index] == expected_bit);
+            assert(aes_ctr.output[index] == ciphertext_bits);
         }
     }
 }
