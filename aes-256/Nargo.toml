@@ -1,0 +1,6 @@
+[package]
+name = "aes_256"
+type = "bin"
+
+[dependencies]
+noir_symmetric_crypto = { path = "../noir-symmetric-crypto" }

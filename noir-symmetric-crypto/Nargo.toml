@@ -1,8 +1,6 @@
 [package]
-name = "zktls_noir"
+name = "noir_symmetric_crypto"
 type = "lib"
 version = "0.1.0"
-authors = ["tx-tomcat"]
-description = "Symmetric cryptography implementations in Noir: AES and ChaCha20"
 
 [dependencies]

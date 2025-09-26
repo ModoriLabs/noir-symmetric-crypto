@@ -2,6 +2,12 @@
 
 Zero-knowledge proof circuits for symmetric cryptographic operations in Noir. This library enables you to prove knowledge of encryption keys and plaintexts without revealing them.
 
+## Getting Started
+
+```sh
+cd aes-256 && nargo compile
+```
+
 ## Overview
 
 This library provides Noir implementations of common symmetric encryption algorithms. It allows you to prove statements about encrypted data while keeping the keys and plaintexts private.
@@ -44,18 +50,8 @@ Constraint counts for different operations:
 
 ## Acknowledgments
 
-This library is a Noir port of [zk-symmetric-crypto](link) which provided the original circom implementations.
+This library is a Noir port of [zk-symmetric-crypto](https://github.com/reclaimprotocol/zk-symmetric-crypto) which provided the original circom implementations.
 
 ## License
 
-Licensed under either of
-
-- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
-- MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
-
-at your option.
-
-## Contact
-
-- GitHub Issues: [noir-symmetric-crypto/issues](https://github.com/tx-tomcat/noir-symmetric-crypto/issues)
-- Twitter: [@dzungdinhnguyen](https://x.com/dzungdinhnguyen)
+- MIT license ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
